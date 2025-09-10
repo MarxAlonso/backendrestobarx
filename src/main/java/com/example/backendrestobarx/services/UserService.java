@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -52,4 +53,20 @@ public class UserService {
 
         return UserDto.fromEntity(user);
     }
+
+    public UserDto updateUser(Long id, Map<String, String> updates) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (updates.containsKey("name")) {
+            user.setName(updates.get("name"));
+        }
+        if (updates.containsKey("phone")) {
+            user.setPhone(updates.get("phone"));
+        }
+
+        User saved = userRepository.save(user);
+        return UserDto.fromEntity(saved);
+    }
+
 }

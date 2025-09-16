@@ -26,7 +26,8 @@ public class MenuItem {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String imageUrl;
+    @Column(length = 500)
+    private String imageUrl; // Esto solo guarda el enlace de la imagen
 
     @Column(nullable = false)
     private Boolean isAvailable = true;

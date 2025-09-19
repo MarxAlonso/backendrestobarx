@@ -85,6 +85,27 @@ public class UserService {
 
         userRepository.save(user);
     }
+    //esto es para el admin
+    public UserDto registerClientAndReturn(RegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("El correo ya está registrado");
+        }
+        User user = new User();
+        user.setName(request.getName().trim());
+        user.setEmail(request.getEmail().trim().toLowerCase());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(User.Role.CLIENT);
+        user.setIsActive(true);
+        User saved = userRepository.save(user);
+        return UserDto.fromEntity(saved);
+    }
+
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        userRepository.deleteById(id);
+    }
 
     public List<User> getClients() {
         return userRepository.findByRole(User.Role.CLIENT);

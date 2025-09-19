@@ -117,11 +117,11 @@ public class User {
         this.phone = phone;
     }
 
-    public Boolean getActive() {
+    public Boolean getISActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
+    public void setIsActive(Boolean active) {
         isActive = active;
     }
 

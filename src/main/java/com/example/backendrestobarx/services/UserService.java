@@ -2,6 +2,7 @@ package com.example.backendrestobarx.services;
 
 import com.example.backendrestobarx.dto.LoginRequest;
 import com.example.backendrestobarx.dto.LoginResponse;
+import com.example.backendrestobarx.dto.RegisterRequest;
 import com.example.backendrestobarx.dto.UserDto;
 import com.example.backendrestobarx.entity.User;
 import com.example.backendrestobarx.repository.UserRepository;
@@ -69,4 +70,18 @@ public class UserService {
         return UserDto.fromEntity(saved);
     }
 
+    public void registerClient(RegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("El correo ya está registrado");
+        }
+
+        User user = new User();
+        user.setName(request.getName().trim());
+        user.setEmail(request.getEmail().trim().toLowerCase());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(User.Role.CLIENT);          // Esto fuerza automaticamente el rol CLIENT a la hora de registrar usuario
+        user.setIsActive(true);
+
+        userRepository.save(user);
+    }
 }

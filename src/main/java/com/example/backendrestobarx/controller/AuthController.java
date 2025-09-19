@@ -2,6 +2,7 @@ package com.example.backendrestobarx.controller;
 
 import com.example.backendrestobarx.dto.LoginRequest;
 import com.example.backendrestobarx.dto.LoginResponse;
+import com.example.backendrestobarx.dto.RegisterRequest;
 import com.example.backendrestobarx.security.JwtUtil;
 import com.example.backendrestobarx.services.UserService;
 import jakarta.validation.Valid;
@@ -57,5 +58,17 @@ public class AuthController {
             return ResponseEntity.status(403).body("Token inválido o error en validación");
         }
     }
+
+    //PAra validacion y funcionalidad del registro en el front de react :D
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
+        try {
+            userService.registerClient(request);  // Nuevo método en UserService
+            return ResponseEntity.ok(Map.of("message", "Usuario registrado correctamente"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
 
 }

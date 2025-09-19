@@ -1,10 +1,12 @@
 package com.example.backendrestobarx.controller;
 
 import com.example.backendrestobarx.dto.UserDto;
+import com.example.backendrestobarx.entity.User;
 import com.example.backendrestobarx.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,5 +27,11 @@ public class UserController {
     ) {
         UserDto updated = userService.updateUser(id, updates);
         return ResponseEntity.ok(updated);
+    }
+
+    // Solo admin puede ver los clientes
+    @GetMapping("/clients")
+    public ResponseEntity<List<User>> getAllClients() {
+        return ResponseEntity.ok(userService.getClients());
     }
 }

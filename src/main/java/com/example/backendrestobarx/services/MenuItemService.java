@@ -5,6 +5,7 @@ import com.example.backendrestobarx.repository.MenuItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MenuItemService {
@@ -24,5 +25,15 @@ public class MenuItemService {
 
     public MenuItem save(MenuItem item) {
         return menuItemRepository.save(item);
+    }
+
+    // Buscar ítem por ID
+    public Optional<MenuItem> findById(Long id) {
+        return menuItemRepository.findById(id);
+    }
+
+    // Eliminar ítem por ID
+    public void delete(Long id) {
+        menuItemRepository.deleteById(id);
     }
 }
